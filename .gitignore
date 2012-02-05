@@ -1,0 +1,6 @@
+
+# Vim temp files
+*.swp
+
+# Non-source python files
+build
