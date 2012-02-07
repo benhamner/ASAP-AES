@@ -1,7 +1,4 @@
-
-"""
-Calculates the quadratic weighted kappa inter-rater agreemeent
-"""
+import numpy
 
 def confusion_matrix(rater_a, rater_b,
 		 min_rating=None, max_rating=None):
@@ -53,3 +50,22 @@ def quadratic_weighted_kappa(rater_a, rater_b,
 	    denominator += d*expected_count / num_scored_items
 
     return 1.0 - numerator / denominator
+
+def mean_quadratic_weighted_kappa(kappas, weights=None):
+    """
+    Calculates the mean kappa in the z-space
+    """
+    kappas = numpy.array(kappas, dtype=float)
+    if weights is None:
+        weights = numpy.ones(numpy.shape(kappas))
+    else:
+        weights = weights / numpy.mean(weights)
+
+    # ensure that kappas are in the range [-.999, .999]
+    kappas = numpy.array([min(x, .999) for x in kappas])
+    kappas = numpy.array([max(x, -.999) for x in kappas])
+    
+    z = 0.5 * numpy.log( (1+kappas)/(1-kappas) ) * weights
+    z = numpy.mean(z)
+    kappa = (numpy.exp(2*z)-1) / (numpy.exp(2*z)+1)
+    return kappa
