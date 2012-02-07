@@ -4,3 +4,4 @@
 
 # Non-source python files
 build
+*.pyc
