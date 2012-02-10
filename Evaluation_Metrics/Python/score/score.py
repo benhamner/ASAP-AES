@@ -32,8 +32,24 @@ def histogram(ratings, min_rating=None, max_rating=None):
 def quadratic_weighted_kappa(rater_a, rater_b,
                              min_rating = None, max_rating = None):
     """
-    Calculates the quadratic weighted kappa, a measure of
-    agreement between two raters
+    Calculates the quadratic weighted kappa
+    scoreQuadraticWeightedKappa calculates the quadratic weighted kappa
+    value, which is a measure of inter-rater agreement between two raters
+    that provide discrete numeric ratings.  Potential values range from -1  
+    (representing complete disagreement) to 1 (representing complete
+    agreement).  A kappa value of 0 is expected if all agreement is due to
+    chance.
+    
+    scoreQuadraticWeightedKappa(rater_a, rater_b), where rater_a and rater_b
+    each correspond to a list of integer ratings.  These lists must have the
+    same length.
+    
+    The ratings should be integers, and it is assumed that they contain
+    the complete range of possible ratings.
+   
+    score_quadratic_weighted_kappa(X, min_rating, max_rating), where min_rating
+    is the minimum possible rating, and max_rating is the maximum possible
+    rating
     """
     assert(len(rater_a) == len(rater_b))
     if min_rating is None:
@@ -63,7 +79,19 @@ def quadratic_weighted_kappa(rater_a, rater_b,
 
 def mean_quadratic_weighted_kappa(kappas, weights=None):
     """
-    Calculates the mean kappa in the z-space
+    Calculates the mean of the quadratic
+    weighted kappas after applying Fisher's r-to-z transform, which is
+    approximately a variance-stabilizing transformation.  This
+    transformation is undefined if one of the kappas is 1.0, so all kappa
+    values are capped in the range (-0.999, 0.999).  The reverse
+    transformation is then applied before returning the result.
+    
+    mean_quadratic_weighted_kappa(kappas), where kappas is a vector of
+    kappa values
+
+    mean_quadratic_weighted_kappa(kappas, weights), where weights is a vector
+    of weights that is the same size as kappas.  Weights are applied in the
+    z-space
     """
     kappas = numpy.array(kappas, dtype=float)
     if weights is None:
