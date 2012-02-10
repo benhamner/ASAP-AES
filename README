@@ -1,3 +1,5 @@
-Evaluation metrics for the Hewlett Foundation's Automated Student Assessment Prize: Automated Essay Scoring competition.
+Evaluation metrics and benchmarks for the Hewlett Foundation's Automated Student Assessment Prize: Automated Essay Scoring competition.
+
+length_benchmark.py creates a sample submission by training a Random Forest for each essay set from the character and word count features.  It requires scikit.learn and the data files to be placed in the data directory to run.
 
 http://www.kaggle.com/c/asap-aes
