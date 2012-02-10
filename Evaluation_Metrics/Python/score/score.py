@@ -2,6 +2,9 @@ import numpy
 
 def confusion_matrix(rater_a, rater_b,
 		 min_rating=None, max_rating=None):
+    """
+    Returns the confusion matrix between rater's ratings
+    """
     assert(len(rater_a)==len(rater_b))
     if min_rating is None:
         min_rating = min(reduce(min, rater_a), reduce(min, rater_b))
@@ -15,6 +18,9 @@ def confusion_matrix(rater_a, rater_b,
     return conf_mat
 
 def histogram(ratings, min_rating=None, max_rating=None):
+    """
+    Returns the counts of each type of rating that a rater made
+    """
     if min_rating is None: min_rating = reduce(min, ratings)
     if max_rating is None: max_rating = reduce(max, ratings)
     num_ratings = max_rating - min_rating + 1
@@ -25,6 +31,10 @@ def histogram(ratings, min_rating=None, max_rating=None):
 
 def quadratic_weighted_kappa(rater_a, rater_b,
                              min_rating = None, max_rating = None):
+    """
+    Calculates the quadratic weighted kappa, a measure of
+    agreement between two raters
+    """
     assert(len(rater_a) == len(rater_b))
     if min_rating is None:
 	min_rating = min(reduce(min, rater_a), reduce(min, rater_b))
