@@ -1,4 +1,17 @@
-ScoreQuadraticWeightedKappa = function (rater.a , rater.b) {
+ScoreQuadraticWeightedKappa = function (rater.a , rater.b, 
+                                        min.rating,
+                                        max.rating) {
+
+    if (missing(min.rating)) {
+        min.rating = min(min(rater.a),min(rater.b))
+    }
+    if (missing(max.rating)) {
+        max.rating = max(max(rater.a),max(rater.b))
+    }
+    
+    rater.a = factor(rater.a, levels=min.rating:max.rating)
+    rater.b = factor(rater.b, levels=min.rating:max.rating)
+
     #pairwise frequencies
     confusion.mat = table(data.frame(rater.a, rater.b))
     confusion.mat = confusion.mat / sum(confusion.mat)
