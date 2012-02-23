@@ -26,7 +26,8 @@ class Testquadratic_weighted_kappa(unittest.TestCase):
 
         kappa = score.quadratic_weighted_kappa([1,2,3,1,2,2,3],[1,2,3,1,2,3,2])
         self.assertAlmostEqual(kappa, 0.75)
-
+    
+    # todo: test cases for linear_weighted_kappa
 
     def test_mean_quadratic_weighted_kappa(self):
         kappa = score.mean_quadratic_weighted_kappa([1, 1])
