@@ -119,7 +119,7 @@ def linear_weighted_kappa(rater_a, rater_b,
 	for j in range(num_ratings):
 	    expected_count = (hist_rater_a[i]*hist_rater_b[j]
 			      / num_scored_items) 
-	    d = abs(i-j) / (num_ratings-1)
+	    d = abs(i-j) / float(num_ratings-1)
 	    numerator += d*conf_mat[i][j] / num_scored_items
 	    denominator += d*expected_count / num_scored_items
 
