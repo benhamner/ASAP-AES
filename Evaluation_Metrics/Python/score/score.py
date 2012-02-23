@@ -125,6 +125,57 @@ def linear_weighted_kappa(rater_a, rater_b,
 
     return 1.0 - numerator / denominator
 
+def kappa(rater_a, rater_b,
+                             min_rating = None, max_rating = None):
+    """
+    Calculates the kappa
+    kappa calculates the kappa
+    value, which is a measure of inter-rater agreement between two raters
+    that provide discrete numeric ratings.  Potential values range from -1  
+    (representing complete disagreement) to 1 (representing complete
+    agreement).  A kappa value of 0 is expected if all agreement is due to
+    chance.
+    
+    kappa(rater_a, rater_b), where rater_a and rater_b
+    each correspond to a list of integer ratings.  These lists must have the
+    same length.
+    
+    The ratings should be integers, and it is assumed that they contain
+    the complete range of possible ratings.
+   
+    kappa(X, min_rating, max_rating), where min_rating
+    is the minimum possible rating, and max_rating is the maximum possible
+    rating
+    """
+    assert(len(rater_a) == len(rater_b))
+    if min_rating is None:
+	min_rating = min(reduce(min, rater_a), reduce(min, rater_b))
+    if max_rating is None:
+	max_rating = max(reduce(max, rater_a), reduce(max, rater_b))
+    conf_mat = confusion_matrix(rater_a, rater_b,
+				     min_rating, max_rating)
+    num_ratings = len(conf_mat)
+    num_scored_items = float(len(rater_a))
+
+    hist_rater_a = histogram(rater_a, min_rating, max_rating)
+    hist_rater_b = histogram(rater_b, min_rating, max_rating)
+
+    numerator = 0.0
+    denominator = 0.0
+
+    for i in range(num_ratings):
+	for j in range(num_ratings):
+	    expected_count = (hist_rater_a[i]*hist_rater_b[j]
+			      / num_scored_items) 
+	    if i==j:
+	        d=0.0
+	    else:
+	        d=1.0
+	    numerator += d*conf_mat[i][j] / num_scored_items
+	    denominator += d*expected_count / num_scored_items
+
+    return 1.0 - numerator / denominator
+
 def mean_quadratic_weighted_kappa(kappas, weights=None):
     """
     Calculates the mean of the quadratic
